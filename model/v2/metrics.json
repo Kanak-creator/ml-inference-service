@@ -1,0 +1,11 @@
+{
+  "version": "v2",
+  "accuracy": 1.0,
+  "random_seed": 42,
+  "rows": 1000,
+  "features": [
+    "feature1",
+    "feature2"
+  ],
+  "model_type": "LogisticRegression"
+}
