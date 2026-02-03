@@ -3,6 +3,7 @@ print(">>> SERVICE.PY LOADED <<<")
 import joblib
 import logging
 import time
+import os
 import pandas as pd
 
 logger = logging.getLogger()
@@ -10,7 +11,7 @@ logger = logging.getLogger()
 class ModelService:
     def __init__(self):
         print(">>> MODEL INIT <<<")
-        MODEL_VERSION = "v1"
+        MODEL_VERSION = os.getenv("MODEL_VERSION", "v3")
         try:
             start = time.time()
             self.model = joblib.load(f"model/{MODEL_VERSION}/model.joblib")
@@ -28,8 +29,8 @@ class ModelService:
             raise RuntimeError("Model not loaded")
 
         start = time.time()
-        df = pd.DataFrame([features], columns=["feature1", "feature2"])
-        result = self.model.predict(df)[0]
+        df = pd.DataFrame([features], columns=["Pclass", "Sex", "Age", "Fare"])
+        result = self.model.predict_proba(df)[0][1]
         latency_ms = (time.time() - start) * 1000
 
         logger.info(
@@ -40,4 +41,4 @@ class ModelService:
             },
         )
 
-        return int(result)
+        return float(result)

@@ -1,0 +1,14 @@
+{
+  "version": "v3",
+  "accuracy": 0.7988826815642458,
+  "random_seed": 42,
+  "rows": 891,
+  "features": [
+    "Pclass",
+    "Sex",
+    "Age",
+    "Fare"
+  ],
+  "model_type": "LogisticRegression",
+  "dataset": "Titanic (Kaggle)"
+}

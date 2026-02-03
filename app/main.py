@@ -1,5 +1,3 @@
-print(">>> MAIN.PY LOADED <<<")
-
 import logging
 
 logging.basicConfig(

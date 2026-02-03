@@ -29,28 +29,16 @@ model_service = ModelService()
 
 @router.post("/predict", response_model=PredictionResponse)
 def predict(req: PredictionRequest):
-    start = time.time()
+    features = {
+        "Pclass": req.Pclass,
+        "Sex": req.Sex,
+        "Age": req.Age,
+        "Fare": req.Fare,
+    }
 
-    try:
-        print(">>> PREDICT CALLED <<<")
-        logger.info(">>> LOGGER PREDICT CALLED <<<")
-        pred = model_service.predict([req.feature1, req.feature2])
-    except RuntimeError as e:
-        logger.error("Prediction failed", exc_info=e)
-        raise HTTPException(status_code=503, detail="Model not available")
+    prob = model_service.predict(features)
 
-    total_latency = (time.time() - start) * 1000
-
-    logger.info(
-        "Request handled",
-        extra={
-            "feature1": req.feature1,
-            "feature2": req.feature2,
-            "total_latency_ms": round(total_latency, 2)
-        }
-    )
-
-    return PredictionResponse(prediction=pred)
+    return PredictionResponse(probability=prob)
 
 @router.get("/health")
 def health_check():
